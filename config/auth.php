@@ -41,11 +41,21 @@ return [
             'provider' => 'users',
         ],
 
+        // 'admin' => [
+        //     'driver' => 'session',
+        //     'provider' => 'admins',
+        //     'hash' => false,
+        // ],
         'api' => [
             'driver' => 'passport',
             'provider' => 'users',
             'hash' => false,
         ],
+        // 'admin-api' => [
+        //     'driver' => 'passport',
+        //     'provider' => 'admins',
+        //     'hash' => false,
+        // ],
     ],
 
     /*
@@ -70,6 +80,11 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
+        // 'admins' => [
+        //     'driver' => 'eloquent',
+        //     'model' => App\Models\Admin::class,
+        // ],
+        
 
         // 'users' => [
         //     'driver' => 'database',

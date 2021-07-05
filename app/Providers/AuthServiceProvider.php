@@ -29,6 +29,11 @@ class AuthServiceProvider extends ServiceProvider
         // }
 
         Passport::routes();
+        
+        // Passport::tokensCan([
+        //     'user' => 'User Type',
+        //     'admin' => 'Admin User Type',
+        // ]);
 
         // Passport::hashClientSecrets();
         // //Token lifetimes
