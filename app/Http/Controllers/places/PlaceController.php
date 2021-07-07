@@ -23,7 +23,7 @@ class PlaceController extends Controller
     public function index()
     {
         $places = Place::all();
-        return response(['places' => $places]);
+        return response(['success' => 'Data retrieve successfully','places' => $places]);
     }
 
     /**
@@ -68,7 +68,7 @@ class PlaceController extends Controller
      * @param  \App\Models\place  $place
      * @return \Illuminate\Http\Response
      */
-    public function show(place $place)
+    public function show(Place $place)
     {
         //
     }
@@ -91,7 +91,7 @@ class PlaceController extends Controller
      * @param  \App\Models\place  $place
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, place $place)
+    public function update(Request $request, Place $place)
     {
         //
     }
@@ -102,7 +102,7 @@ class PlaceController extends Controller
      * @param  \App\Models\place  $place
      * @return \Illuminate\Http\Response
      */
-    public function destroy(place $place)
+    public function destroy(Place $place)
     {
         //
     }

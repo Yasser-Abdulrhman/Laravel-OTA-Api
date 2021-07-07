@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\category;
 use Illuminate\Http\Request;
 
-class categoryController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -45,7 +45,6 @@ class categoryController extends Controller
         //
         $request->validate([
             'name' => 'required|string|max:50',           
-            'category_id' => 'required|numeric|min:1',
         ]);
         $request->merge(['admin_id' => Auth::user()->id]);
         $place= Place::create($request);
@@ -59,7 +58,7 @@ class categoryController extends Controller
      * @param  \App\Models\category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show(category $category)
+    public function show(Category $category)
     {
         //
     }
@@ -70,7 +69,7 @@ class categoryController extends Controller
      * @param  \App\Models\category  $category
      * @return \Illuminate\Http\Response
      */
-    public function edit(category $category)
+    public function edit(Category $category)
     {
         //
     }
@@ -82,7 +81,7 @@ class categoryController extends Controller
      * @param  \App\Models\category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, category $category)
+    public function update(Request $request, Category $category)
     {
         //
     }
@@ -93,7 +92,7 @@ class categoryController extends Controller
      * @param  \App\Models\category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(category $category)
+    public function destroy(Category $category)
     {
         //
     }

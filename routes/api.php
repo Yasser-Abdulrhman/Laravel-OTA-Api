@@ -30,8 +30,9 @@ Route::post('/register', [AuthController::class, 'register']);
 
 Route::group(['middleware' => ['isAdmin']], function () {
     Route::resource('place', 'App\Http\Controllers\places\PlaceController');
+    // Route::resource('/place', [PlaceController::class]);
 });
-// Route::resource('place', 'App\Http\Controllers\places\PlaceController');
+
 
 
 // Route::resource('/place', [places\PlaceControlller::class]);
