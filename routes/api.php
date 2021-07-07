@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+// use App\Http\Controllers\places\PlaceController;
 
 
 /*
@@ -27,5 +28,14 @@ use App\Http\Controllers\AuthController;
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 
+Route::group(['middleware' => ['isAdmin']], function () {
+    Route::resource('place', 'App\Http\Controllers\places\PlaceController');
+});
+// Route::resource('place', 'App\Http\Controllers\places\PlaceController');
 
 
+// Route::resource('/place', [places\PlaceControlller::class]);
+
+
+
+// Route::resource('/place', [UserController::class]);

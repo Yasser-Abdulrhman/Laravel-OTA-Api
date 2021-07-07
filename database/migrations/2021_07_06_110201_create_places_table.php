@@ -15,13 +15,25 @@ class CreatePlacesTable extends Migration
     {
         Schema::create('places', function (Blueprint $table) {
             $table->id();
-            $table->string('type');
+            $table->string('name');
+            $table->text('description');
+            $table->longText('location');
+            $table->string('image');
+            $table->integer('price');
+            $table->integer('offer');
             $table->unsignedbiginteger('admin_id')->nullable();
+            $table->unsignedbiginteger('category_id')->nullable();
             $table->timestamps();
 
             $table->foreign('admin_id')
                 ->references('id')
                 ->on('users')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('category_id')
+                ->references('id')
+                ->on('categories')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
         });
