@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Place;
 use Illuminate\Http\Request;
 use Auth;
+use App\Http\Resources\Places\Place as PlaceResource;
+
 
 
 class PlaceController extends Controller
@@ -20,10 +22,22 @@ class PlaceController extends Controller
         $this->middleware('auth:api');
     }
 
+
+    public function sendResponse($result, $message)
+    {
+    	$response = [
+            'success' => true,
+            'data'    => $result,
+            'message' => $message,
+        ];
+        return response()->json($response, 200);
+    }
+
     public function index()
     {
         $places = Place::all();
-        return response(['success' => 'Data retrieve successfully','places' => $places]);
+        return $this->sendResponse(PlaceResource::collection($places), 'places retrieved successfully.');
+
     }
 
     /**
@@ -57,7 +71,8 @@ class PlaceController extends Controller
         $request->merge(['admin_id' => Auth::user()->id]);
         $input = $request->all();
         $place= Place::create($input);
-        return response(['place' => $place]);
+        return $this->sendResponse(new PlaceResource($place), 'Place created successfully.');
+
 
 
     }
@@ -71,6 +86,10 @@ class PlaceController extends Controller
     public function show(Place $place)
     {
         //
+        $place = Place::find($place->id);
+        return response(['success' => 'Data retrieve successfully','place'=> $place]);
+        return $this->sendResponse(new PlaceResource($place), 'Place retrieved successfully.');
+
     }
 
     /**
@@ -94,6 +113,25 @@ class PlaceController extends Controller
     public function update(Request $request, Place $place)
     {
         //
+        $request->validate([
+            'name' => 'required|string|max:50',
+            'description' => 'required|max:225|min:3',
+            'location' => 'required|max:225|min:10',
+            'image' => 'required|max:225|min:2',
+            'price' => 'required|numeric|min:1',
+            'offer' => 'required|numeric|min:1',
+            'category_id' => 'required|numeric|min:1',         
+        ]);
+        $input = $request->all();
+        $place->name = $input['name'];
+        $place->description = $input['description'];
+        $place->location = $input['location'];
+        $place->image = $input['image'];
+        $place->price = $input['price'];
+        $place->offer = $input['offer'];
+        $place->category_id = $input['category_id'];
+        $place->save();
+        return $this->sendResponse(new PlaceResource($place), 'Place updated successfully.');
     }
 
     /**
@@ -104,6 +142,7 @@ class PlaceController extends Controller
      */
     public function destroy(Place $place)
     {
-        //
+        $place->delete();
+        return $this->sendResponse([], 'Place deleted successfully.');
     }
 }

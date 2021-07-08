@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\places;
 
 use App\Http\Controllers\Controller;
-use App\Models\category;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Auth;
+use App\Http\Resources\Places\Category as CategoryResource;
+
+
 
 class CategoryController extends Controller
 {
@@ -16,12 +20,27 @@ class CategoryController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth:api');
+    }
+
+    public function sendResponse($result, $message)
+    {
+    	$response = [
+            'success' => true,
+            'data'    => $result,
+            'message' => $message,
+        ];
+
+
+        return response()->json($response, 200);
     }
 
     public function index()
     {
         //
+        $categories = Category::all();
+        return $this->sendResponse(CategoryResource::collection($categories), 'categories retrieved successfully.');
+
     }
 
     /**
@@ -44,12 +63,13 @@ class CategoryController extends Controller
     {
         //
         $request->validate([
-            'name' => 'required|string|max:50',           
+            'name' => 'required|string|max:20|unique:categories',           
         ]);
         $request->merge(['admin_id' => Auth::user()->id]);
-        $place= Place::create($request);
-        return response(['place' => $place ]);
-        
+        $input = $request->all();
+        $category= Category::create($input);
+        return $this->sendResponse(new CategoryResource($category), 'Category created successfully.');
+
     }
 
     /**
@@ -61,6 +81,16 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
         //
+        $check = Category::where('id',$category->id)->exists();
+        if($check)
+        {
+         $category = Category::findOrFail($category->id);
+        return $this->sendResponse(new CategoryResource($category), 'Category retrieved successfully.');
+
+        }
+        else
+        return response(['success' => 'This category not found']);
+
     }
 
     /**
@@ -84,6 +114,14 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         //
+        $request->validate([
+            'name' => 'required|string|max:20|unique:categories',           
+        ]);
+        $input = $request->all();
+        $category->name = $input['name'];
+        $category->save();
+        return $this->sendResponse(new CategoryResource($category), 'Category updated successfully.');
+
     }
 
     /**
@@ -95,5 +133,8 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         //
+        $category->delete();
+        return $this->sendResponse([], 'Student deleted successfully.');
+
     }
 }
