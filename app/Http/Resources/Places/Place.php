@@ -12,6 +12,9 @@ class Place extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
+
+    public static $wrap = 'place';
+
     public function toArray($request)
     {
         // return parent::toArray($request);
@@ -28,5 +31,6 @@ class Place extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
+      
     }
 }

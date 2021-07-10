@@ -35,9 +35,10 @@ class PlaceController extends Controller
 
     public function index()
     {
-        $places = Place::all();
-        return $this->sendResponse(PlaceResource::collection($places), 'places retrieved successfully.');
-
+        // $places = Place::all();
+        $places = Place::paginate(3);
+        // return $this->sendResponse(PlaceResource::collection($places), 'places retrieved successfully.');
+        return PlaceResource::collection($places);
     }
 
     /**
@@ -86,9 +87,10 @@ class PlaceController extends Controller
     public function show(Place $place)
     {
         //
-        $place = Place::find($place->id);
-        return response(['success' => 'Data retrieve successfully','place'=> $place]);
-        return $this->sendResponse(new PlaceResource($place), 'Place retrieved successfully.');
+        // $place = Place::find($place->id);
+        // return response(['success' => 'Data retrieve successfully','place'=> $place]);
+        // return $this->sendResponse(new PlaceResource($place), 'Place retrieved successfully.');
+        return new PlaceResource($place);
 
     }
 

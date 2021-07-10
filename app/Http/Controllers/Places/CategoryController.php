@@ -8,8 +8,6 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Http\Resources\Places\Category as CategoryResource;
 
-
-
 class CategoryController extends Controller
 {
     /**
@@ -38,8 +36,9 @@ class CategoryController extends Controller
     public function index()
     {
         //
-        $categories = Category::all();
-        return $this->sendResponse(CategoryResource::collection($categories), 'categories retrieved successfully.');
+        $categories = Category::paginate(3);
+        // return $this->sendResponse(CategoryResource::collection($categories), 'categories retrieved successfully.');
+        return CategoryResource::collection($categories);
 
     }
 
@@ -81,15 +80,18 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
         //
-        $check = Category::where('id',$category->id)->exists();
-        if($check)
-        {
-         $category = Category::findOrFail($category->id);
-        return $this->sendResponse(new CategoryResource($category), 'Category retrieved successfully.');
+        // $check = Category::where('id',$category->id)->exists();
+        // if($check)
+        // {
+        //  $category = Category::findOrFail($category->id);
+        // return $this->sendResponse(new CategoryResource($category), 'Category retrieved successfully.');
 
-        }
-        else
-        return response(['success' => 'This category not found']);
+        // }
+        // else
+        // return response(['success' => 'This category not found']);
+
+        return new CategoryResource($category);
+
 
     }
 
