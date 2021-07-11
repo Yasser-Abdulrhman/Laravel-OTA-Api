@@ -73,9 +73,6 @@ class PlaceController extends Controller
         $input = $request->all();
         $place= Place::create($input);
         return $this->sendResponse(new PlaceResource($place), 'Place created successfully.');
-
-
-
     }
 
     /**
