@@ -4,7 +4,11 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Place;
 use Illuminate\Http\Request;
+use Auth;
+use App\Http\Resources\Places\Place as PlaceResource;
+use App\Http\Resources\User\User as UserResource;
 
 class UserController extends Controller
 {
@@ -13,6 +17,11 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
     public function index()
     {
         //
@@ -90,6 +99,12 @@ class UserController extends Controller
         $user = User::find(auth()->user()->id);
         $places =  $user->places;     
         return PlaceResource::collection($places);
+    }
+
+    public function placesUsers(Place $place)
+    {
+        $users = $place->users;
+        return UserResource::collection($users);
     }
 
 }
