@@ -31,13 +31,9 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::group(['middleware' => ['isAdmin']], function () {
     Route::resource('place', 'App\Http\Controllers\Places\PlaceController');
     Route::resource('category', 'App\Http\Controllers\Places\CategoryController');
-    // Route::resource('/place', [PlaceController::class]);
+    Route::get('places/{category}' , 'App\Http\Controllers\Places\CategoryController@places');
+    Route::get('categorydetails/{place}' , 'App\Http\Controllers\Places\PlaceController@category');
+    Route::get('userplaces/{user}' , 'App\Http\Controllers\User\UserController@userPlaces');
 });
 
 
-
-// Route::resource('/place', [places\PlaceControlller::class]);
-
-
-
-// Route::resource('/place', [UserController::class]);

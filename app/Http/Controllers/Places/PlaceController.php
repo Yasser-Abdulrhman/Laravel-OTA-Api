@@ -4,9 +4,11 @@ namespace App\Http\Controllers\places;
 
 use App\Http\Controllers\Controller;
 use App\Models\Place;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Auth;
 use App\Http\Resources\Places\Place as PlaceResource;
+use App\Http\Resources\Places\Category as CategoryResource;
 
 
 
@@ -41,15 +43,6 @@ class PlaceController extends Controller
         return PlaceResource::collection($places);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -83,24 +76,12 @@ class PlaceController extends Controller
      */
     public function show(Place $place)
     {
-        //
-        // $place = Place::find($place->id);
+        
         // return response(['success' => 'Data retrieve successfully','place'=> $place]);
         // return $this->sendResponse(new PlaceResource($place), 'Place retrieved successfully.');
         return new PlaceResource($place);
-
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\place  $place
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(place $place)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -141,7 +122,14 @@ class PlaceController extends Controller
      */
     public function destroy(Place $place)
     {
-        $place->delete();
+        $place->delete();        
         return $this->sendResponse([], 'Place deleted successfully.');
+    }
+
+
+    public function category(Place $place)
+    {
+        $category = Category::find($place);
+        return $this->sendResponse(CategoryResource::collection($category),'category retrieved successfully.');
     }
 }

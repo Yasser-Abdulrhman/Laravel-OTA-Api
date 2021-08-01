@@ -7,6 +7,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Auth;
 use App\Http\Resources\Places\Category as CategoryResource;
+use App\Http\Resources\Places\Place as PlaceResource;
 
 class CategoryController extends Controller
 {
@@ -39,19 +40,9 @@ class CategoryController extends Controller
         $categories = Category::paginate(3);
         // return $this->sendResponse(CategoryResource::collection($categories), 'categories retrieved successfully.');
         return CategoryResource::collection($categories);
-
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
+  
     /**
      * Store a newly created resource in storage.
      *
@@ -68,7 +59,6 @@ class CategoryController extends Controller
         $input = $request->all();
         $category= Category::create($input);
         return $this->sendResponse(new CategoryResource($category), 'Category created successfully.');
-
     }
 
     /**
@@ -80,32 +70,9 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
         //
-        // $check = Category::where('id',$category->id)->exists();
-        // if($check)
-        // {
-        //  $category = Category::findOrFail($category->id);
-        // return $this->sendResponse(new CategoryResource($category), 'Category retrieved successfully.');
-
-        // }
-        // else
-        // return response(['success' => 'This category not found']);
-
         return new CategoryResource($category);
-
-
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Category $category)
-    {
-        //
-    }
-
+  
     /**
      * Update the specified resource in storage.
      *
@@ -123,7 +90,6 @@ class CategoryController extends Controller
         $category->name = $input['name'];
         $category->save();
         return $this->sendResponse(new CategoryResource($category), 'Category updated successfully.');
-
     }
 
     /**
@@ -137,6 +103,14 @@ class CategoryController extends Controller
         //
         $category->delete();
         return $this->sendResponse([], 'Student deleted successfully.');
+    }
+
+    public function places(Category $category)
+    {
+        $places = $category->places;
+
+        return $this->sendResponse(PlaceResource::collection($places),'Places retrieved successfully.');
+        // return PlaceResource::collection($places);
 
     }
 }
