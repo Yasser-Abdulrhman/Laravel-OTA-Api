@@ -35,6 +35,7 @@ Route::group(['middleware' => ['isAdmin']], function () {
     Route::get('categorydetails/{place}' , 'App\Http\Controllers\Places\PlaceController@category');
     Route::get('userplaces' , 'App\Http\Controllers\User\UserController@userPlaces');
     Route::get('placeusers/{place}' , 'App\Http\Controllers\User\UserController@placesUsers');
+    route::get('bookings','App\Http\Controllers\User\UserController@bookings');
  
 });
 

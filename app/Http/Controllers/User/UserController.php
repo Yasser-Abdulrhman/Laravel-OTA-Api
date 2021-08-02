@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Place;
+use App\Models\UserPlace;
 use Illuminate\Http\Request;
 use Auth;
 use App\Http\Resources\Places\Place as PlaceResource;
@@ -20,6 +21,17 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api');
+    }
+
+
+    public function sendResponse($result, $message)
+    {
+    	$response = [
+            'success' => true,
+            'bookings'    => $result,
+            'message' => $message,
+        ];
+        return response()->json($response, 200);
     }
 
     public function index()
@@ -105,6 +117,17 @@ class UserController extends Controller
     {
         $users = $place->users;
         return UserResource::collection($users);
+    }
+
+    public function bookings()
+    {
+
+        // $bookings = UserPlace::where('user_id' , auth()->user()->id)->count();
+        // $bookings = User::withCount('places')->get()->where('places_count' , '>' , '0');
+        $bookings = User::withCount('places')->where('id' , '=' , auth()->user()->id)->get();
+
+        return $this->sendResponse($bookings, 'number of bookings of user');
+
     }
 
 }
