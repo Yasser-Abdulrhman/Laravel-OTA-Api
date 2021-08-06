@@ -29,13 +29,14 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 
 Route::group(['middleware' => ['isAdmin']], function () {
+    
     Route::resource('place', 'App\Http\Controllers\Places\PlaceController');
     Route::resource('category', 'App\Http\Controllers\Places\CategoryController');
     Route::get('places/{category}' , 'App\Http\Controllers\Places\CategoryController@places');
     Route::get('categorydetails/{place}' , 'App\Http\Controllers\Places\PlaceController@category');
     Route::get('userplaces' , 'App\Http\Controllers\User\UserController@userPlaces');
     Route::get('placeusers/{place}' , 'App\Http\Controllers\User\UserController@placesUsers');
-    route::get('bookings','App\Http\Controllers\User\UserController@bookings');
+    Route::get('bookings','App\Http\Controllers\User\UserController@bookings');
  
 });
 

@@ -121,12 +121,11 @@ class UserController extends Controller
 
     public function bookings()
     {
-
         // $bookings = UserPlace::where('user_id' , auth()->user()->id)->count();
         // $bookings = User::withCount('places')->get()->where('places_count' , '>' , '0');
         $bookings = User::withCount('places')->where('id' , '=' , auth()->user()->id)->get();
-
-        return $this->sendResponse($bookings, 'number of bookings of user');
+        // return $this->sendResponse($bookings, 'number of bookings of user');
+        return response()->json($bookings, 200);
 
     }
 
