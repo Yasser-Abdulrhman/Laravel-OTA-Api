@@ -22,6 +22,11 @@ class PlaceController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api');
+
+        $this->middleware('permission:place-list|place-create|place-edit|place-delete', ['only' => ['index','show']]);
+        $this->middleware('permission:product-create', ['only' => ['store']]);
+        $this->middleware('permission:product-edit', ['only' => ['update']]);
+        $this->middleware('permission:product-delete', ['only' => ['destroy']]);
     }
 
 

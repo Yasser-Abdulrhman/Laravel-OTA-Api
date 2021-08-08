@@ -65,5 +65,9 @@ class Kernel extends HttpKernel
         'isAdmin' => \App\Http\Middleware\isAdmin::class,
         // 'scopes' => \Laravel\Passport\Http\Middleware\CheckScopes::class,
         // 'scope' => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
+
+        'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
+        'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
+        'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
     ];
 }

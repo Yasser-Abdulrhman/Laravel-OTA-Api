@@ -23,6 +23,8 @@ class UserController extends Controller
         $this->middleware('auth:api');
     }
 
+    
+
 
     public function sendResponse($result, $message)
     {
@@ -37,6 +39,8 @@ class UserController extends Controller
     public function index()
     {
         //
+        $users = User::paginate(3);
+        return UserResource::collection($users);
 
     }
 
@@ -59,6 +63,20 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'name' => 'required|max:55',
+            'email' => 'email|required|unique:users',
+            'password' => 'required',
+            'role' => 'require' 
+        ]);
+        $data=$request->all();
+        $data['password'] = bcrypt($request->password);
+        $user = User::create($data);
+        //$accessToken = $user->createToken('authToken')->accessToken;
+        //return response([ 'user' => $user]);
+        return new UserResource($user);
+
+
     }
 
     /**
@@ -70,6 +88,9 @@ class UserController extends Controller
     public function show(User $user)
     {
         //
+        $user = User::find($id);
+        return new UserResource($user);
+
     }
 
     /**
@@ -104,6 +125,9 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         //
+        User::find($id)->delete();
+        return $this->sendResponse([], 'Place deleted successfully.');
+
     }
 
     public function userPlaces()

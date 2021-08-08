@@ -41,3 +41,15 @@ Route::group(['middleware' => ['isAdmin']], function () {
 });
 
 
+// Route::group(['middleware' => ['auth:api']], function() {
+
+//     Route::resource('roles', RoleController::class);
+
+//     Route::resource('users', UserController::class);
+
+//     Route::resource('place', 'App\Http\Controllers\Places\PlaceController');
+
+
+// });
+
+
