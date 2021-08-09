@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Place;
 use App\Models\UserPlace;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 use Auth;
 use App\Http\Resources\Places\Place as PlaceResource;
 use App\Http\Resources\User\User as UserResource;
@@ -72,6 +73,7 @@ class UserController extends Controller
         $data=$request->all();
         $data['password'] = bcrypt($request->password);
         $user = User::create($data);
+        $user->assignRole($request->input('role'));
         //$accessToken = $user->createToken('authToken')->accessToken;
         //return response([ 'user' => $user]);
         return new UserResource($user);
@@ -99,10 +101,7 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
-    {
-        //
-    }
+  
 
     /**
      * Update the specified resource in storage.
@@ -113,7 +112,43 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $this->validate($request, [
+
+            'name' => 'required',
+
+            'email' => 'required|email|unique:users,email,'.$id,
+
+            'password' => 'same:confirm-password',
+
+            'role' => 'required'
+
+        ]);
+
+    
+
+        $input = $request->all();
+
+        if(!empty($input['password'])){ 
+
+            $input['password'] = Hash::make($input['password']);
+
+        }else{
+
+            $input = Arr::except($input,array('password'));    
+
+        }
+
+    
+
+        $user = User::find($id);
+
+        $user->update($input);
+
+        DB::table('model_has_roles')->where('model_id',$id)->delete();
+
+    
+
+        $user->assignRole($request->input('role'));
     }
 
     /**

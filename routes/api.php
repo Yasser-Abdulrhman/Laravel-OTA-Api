@@ -28,28 +28,28 @@ use App\Http\Controllers\AuthController;
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 
-Route::group(['middleware' => ['isAdmin']], function () {
+//Route::group(['middleware' => ['isAdmin']], function () {
     
-    Route::resource('place', 'App\Http\Controllers\Places\PlaceController');
-    Route::resource('category', 'App\Http\Controllers\Places\CategoryController');
-    Route::get('places/{category}' , 'App\Http\Controllers\Places\CategoryController@places');
-    Route::get('categorydetails/{place}' , 'App\Http\Controllers\Places\PlaceController@category');
-    Route::get('userplaces' , 'App\Http\Controllers\User\UserController@userPlaces');
-    Route::get('placeusers/{place}' , 'App\Http\Controllers\User\UserController@placesUsers');
-    Route::get('bookings','App\Http\Controllers\User\UserController@bookings');
+  //  Route::resource('place', 'App\Http\Controllers\Places\PlaceController');
+   // Route::resource('category', 'App\Http\Controllers\Places\CategoryController');
+   // Route::get('places/{category}' , 'App\Http\Controllers\Places\CategoryController@places');
+   // Route::get('categorydetails/{place}' , 'App\Http\Controllers\Places\PlaceController@category');
+    //Route::get('userplaces' , 'App\Http\Controllers\User\UserController@userPlaces');
+    //Route::get('placeusers/{place}' , 'App\Http\Controllers\User\UserController@placesUsers');
+    //Route::get('bookings','App\Http\Controllers\User\UserController@bookings');
  
-});
+//});
 
 
-// Route::group(['middleware' => ['auth:api']], function() {
+ Route::group(['middleware' => ['auth:api']], function() {
 
-//     Route::resource('roles', RoleController::class);
+     Route::resource('roles', RoleController::class);
 
-//     Route::resource('users', UserController::class);
+     Route::resource('users', UserController::class);
 
-//     Route::resource('place', 'App\Http\Controllers\Places\PlaceController');
+     Route::resource('place', 'App\Http\Controllers\Places\PlaceController');
 
 
-// });
+ });
 
 

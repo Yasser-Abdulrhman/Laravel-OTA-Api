@@ -24,7 +24,6 @@ class PermissionSeeder extends Seeder
             'place-create',
             'place-edit',
             'place-delete',
-
         ];
 
         foreach($permissions as $permission)

@@ -30,6 +30,7 @@ class RoleController extends Controller
     {
         //
         $roles = Role::orderBy('id','DESC')->paginate(5);
+        return $roles;
     }
 
     /**
@@ -50,7 +51,22 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        //$permission = Permission::get();
+
+        $this->validate($request, [
+
+            'name' => 'required|unique:roles,name',
+
+            'permission' => 'required',
+
+        ]);
+
+    
+
+        $role = Role::create(['name' => $request->input('name')]);
+
+        $role->syncPermissions($request->input('permission'));
     }
 
     /**

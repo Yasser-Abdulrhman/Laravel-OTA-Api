@@ -23,9 +23,14 @@ class AdminSeeder extends Seeder
             'password' => bcrypt('123456'),
             'role' => 'superAdmin'
         ]);
-        $role = Role::create(['guard_name' => 'api','name' => 'Super Admin']);
-        $permissions = Permission::pluck('id' , 'id')->all();
-        $role->syncPermissions($permissions);
-        $user->assignRole($role);
+
+
+        $Super = Role::where('name' ,'like' , 'superAdmin')->get();
+        $user->assignRole($Super);
+
+       // $role = Role::create(['guard_name' => 'api','name' => 'Super Admin']);
+        //$permissions = Permission::pluck('id' , 'id')->all();
+        //$role->syncPermissions($permissions);
+        //$user->assignRole($role);
     }
 }
