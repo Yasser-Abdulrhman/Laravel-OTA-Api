@@ -7,6 +7,7 @@ I make this task an api not with laravel blade , you can test it by postman
 -  I made the authentication system by passport ( using token)
 -  I used can to check the user or admin to do some operation
 -  I used spatie to make permissions and roles 
+-  
 
 
 ## How to run 
@@ -14,7 +15,7 @@ I make this task an api not with laravel blade , you can test it by postman
 -  make .env file and change dbname , dbhost , password
 -  make database in your machine
 -  composer install
--  php artisan migrate
+-  php artisan migrate:fresh --seed
 -  php artisan serve
 
 
